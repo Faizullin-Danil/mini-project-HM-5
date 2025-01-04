@@ -1,11 +1,16 @@
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 
 const AboutFilm = () => {
-    const { id } = useParams()
+    const location = useLocation()
+    const { film } = location.state || {}
 
     return (
         <div>
-            <h1>Фильм с id: {id}</h1>
+            <h1>{film.Title}</h1>
+            <h2>{film.Description}</h2>
+            <p>{film.Actors}</p>
+            <p>{film.Category}</p>
+            <p>{film.Rate}</p>
         </div>
     )
 }

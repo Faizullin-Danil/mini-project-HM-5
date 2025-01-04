@@ -5,7 +5,7 @@ import MyButton from '../MyButton/MyButton';
 const Dropdown = ({ films, setFilms }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [originalFilms] = useState(films); // Сохраняем исходный массив фильмов
+    const [originalFilms] = useState(films); 
 
     const options = ["Научная фантастика", "Драма", "Криминал", "Фэнтези"];
 
@@ -15,16 +15,16 @@ const Dropdown = ({ films, setFilms }) => {
 
     const filter = (option) => {
         setSelectedOption(option);
-        const filteredFilms = originalFilms.filter(film => film.Сategory === option); // Фильтруем исходный массив
+        const filteredFilms = originalFilms.filter(film => film.Category === option); 
         setFilms(filteredFilms);
-        setIsOpen(false); // Закрываем выпадающий список после выбора
+        setIsOpen(false); 
         console.log({ films }); 
         console.log({ originalFilms }); 
     };
 
     return (
         <div className="dropdown">
-            <MyButton onClick={toggleDropdown} text={selectedOption || "Выберите опцию"} />
+            <MyButton onClick={toggleDropdown} text={selectedOption || "Выберите жанр"} />
 
             {isOpen && (
                 <ul className="dropdown-menu">
