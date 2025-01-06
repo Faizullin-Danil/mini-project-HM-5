@@ -12,12 +12,12 @@ const Card = ({ film, isFavourite, isWatchLater, toggleFavourite, toggleWatchLat
             <Icon icon={isFavourite ? <FaStar /> : <CiStar />} onClick={toggleFavourite} />
             <Icon icon={isWatchLater ? <IoTimer /> : <IoTimerOutline />} onClick={toggleWatchLater} />
             <h1>
-                <Link to={`/aboutfilm/${film.id}`} state={{film}}>{film.Title}</Link>
+                <Link to={`/films/${film.id}`} state={{film}}>{film.Title}</Link>
             </h1>
             <h2>{film.Description}</h2>
-            <p>{film.Actors}</p>
+            <p>Актеры: {film.Actors}</p>
             <p>{film.Category}</p>
-            <p>{film.Rate}</p>
+            <p>Рейтинг: {film.Rate}</p>
         </div>
     );
 };

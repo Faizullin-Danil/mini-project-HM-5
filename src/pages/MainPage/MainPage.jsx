@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleFavourite, toggleWatchLater } from "../../store/toggleActions.js";
 import Card from "../../components/Card/Card.jsx";
 import MyButton from "../../components/MyButton/MyButton.jsx";
 import Dropdown from "../../components/Dropdown/Dropdown.jsx";
 import "./MainPage.css";
-import MultiSelect from "../../components/MultiSelect/MultiSelect.jsx"
+import { Link } from "react-router-dom";
 
 const CollectionFilms = [
     { id: 1, Title: "Начало", Description: "Вор проникает в сны, чтобы украсть секреты.", Actors: "Леонардо ДиКаприо, Джозеф Гордон-Левитт", Category: "Научная фантастика", Rate: 3 },
@@ -14,14 +16,17 @@ const CollectionFilms = [
     { id: 6, Title: "Форрест Гамп", Description: "Необычная жизнь человека на фоне истории.", Actors: "Том Хэнкс, Робин Райт", Category: "Драма", Rate: 8 },
     { id: 7, Title: "Бойцовский клуб", Description: "Бессонница приводит к созданию подпольного клуба.", Actors: "Брэд Питт, Эдвард Нортон", Category: "Драма", Rate: 6 },
     { id: 8, Title: "Матрица", Description: "Хакер открывает правду о реальности.", Actors: "Киану Ривз, Лоренс Фишберн", Category: "Научная фантастика", Rate: 8 },
-    { id: 9, Title: "Властелин колец: Возвращение короля", Description: "Последняя битва за Средиземье начинается.", Actors: "Элайджа Вуд, Вигго Мортенсен", Category: "Фэнтези", Rate: 9 },
+    { id: 9, Title: "Властелин колец: Возвращение короля", Description: "Последня битва за Средиземье начинается.", Actors: "Элайджа Вуд, Вигго Мортенсен", Category: "Фэнтези", Rate: 9 },
     { id: 10, Title: "Интерстеллар", Description: "Исследователи путешествуют через червоточину, чтобы спасти человечество.", Actors: "Мэттью МакКонахи, Энн Хэтэуэй", Category: "Научная фантастика", Rate: 10 }
 ];
 
 const MainPage = () => {
     const [films, setFilms] = useState(CollectionFilms);
-    const [favourites, setFavourites] = useState([]); 
-    const [watchLater, setWatchLater] = useState([]); 
+    const dispatch = useDispatch();
+    const favourites = useSelector(state => state.favourites);
+    const watchLater = useSelector(state => state.watchLater);
+
+    console.log("Main: ", {films})
 
     const SortMax = () => {
         const sortedFilms = [...films].sort((a, b) => b.Rate - a.Rate);
@@ -33,25 +38,24 @@ const MainPage = () => {
         setFilms(sortedFilms);
     };
 
-    const toggleFavourite = (id) => {
-        setFavourites((prev) =>
-            prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
-        );
+    const HandletoggleFavourite = (id) => {
+        dispatch(toggleFavourite(id))
     };
 
-    const toggleWatchLater = (id) => {
-        setWatchLater((prev) =>
-            prev.includes(id) ? prev.filter((watchId) => watchId !== id) : [...prev, id]
-        );
+    const HandletoggleWatchLater = (id) => {
+        dispatch(toggleWatchLater(id))
     };
 
     return (
         <div>
-            <MultiSelect/>
             <div className="button">
                 <MyButton onClick={SortMin} text={"По возрастанию рейтинга"} />
                 <MyButton onClick={SortMax} text={"По убыванию рейтинга"} />
                 <Dropdown films={films} setFilms={setFilms} />
+                <p>
+                    <Link to={"/searchfilm"} state={{films, favourites, watchLater}}>Перейти на страницу поиска</Link>
+                </p>
+                
             </div>
             {films.map((film) => (
                 <Card
@@ -59,8 +63,8 @@ const MainPage = () => {
                     film={film}
                     isFavourite={favourites.includes(film.id)}
                     isWatchLater={watchLater.includes(film.id)}
-                    toggleFavourite={() => toggleFavourite(film.id)}
-                    toggleWatchLater={() => toggleWatchLater(film.id)}
+                    toggleFavourite={() => HandletoggleFavourite(film.id)}
+                    toggleWatchLater={() => HandletoggleWatchLater(film.id)}
                 />
             ))}
         </div>

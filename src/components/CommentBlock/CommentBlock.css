@@ -1,0 +1,21 @@
+.AddComment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.CommentBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Comments {
+    border: 2px solid #ccc;   
+    border-radius: 10px; 
+}
+
+.comTitle {
+    text-align: left;
+    margin-left: 10px;
+}

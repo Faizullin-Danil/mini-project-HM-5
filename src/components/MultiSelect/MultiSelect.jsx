@@ -1,29 +1,25 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import Select from "react-select";
+import "./MultiSelect.css"
 
-const MultiSelect = () => {
-    const [selectedValues, setSelectedValues] = useState([]);
+const options = [
+    { value: "Научная фантастика", label: "Научная фантастика" },
+    { value: "Драма", label: "Драма" },
+    { value: "Криминал", label: "Криминал" },
+    { value: "Фэнтези", label: "Фэнтези" } 
+];
 
-    const handleChange = (event) => {
-        const values = Array.from(event.target.selectedOptions, option => option.value);
-        setSelectedValues(values);
-    };
-
+const MultiSelect = ({selectedOptions, setSelectedOptions}) => {
+    
     return (
-        <div>
-            <select multiple value={selectedValues} onChange={handleChange}>
-                {options.map(option => (
-                    <option key={option} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-
-            <h3>Выбрано:</h3>
-            <ul>
-                {selectedValues.map(value => (
-                    <li key={value}>{value}</li>
-                ))}
-            </ul>
+        <div className="multiselect">
+            <Select
+                isMulti
+                options={options}
+                value={selectedOptions}
+                onChange={setSelectedOptions}
+                placeholder="Выберите жанр"
+            />
         </div>
     );
 };

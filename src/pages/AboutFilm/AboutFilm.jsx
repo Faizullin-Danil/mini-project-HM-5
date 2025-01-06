@@ -1,4 +1,5 @@
 import { useLocation, useParams } from "react-router-dom"
+import CommentBlock from "../../components/CommentBlock/CommentBlock"
 
 const AboutFilm = () => {
     const location = useLocation()
@@ -8,9 +9,10 @@ const AboutFilm = () => {
         <div>
             <h1>{film.Title}</h1>
             <h2>{film.Description}</h2>
-            <p>{film.Actors}</p>
+            <p>Актеры: {film.Actors}</p>
             <p>{film.Category}</p>
-            <p>{film.Rate}</p>
+            <p>Рейтинг: {film.Rate}</p>
+            <CommentBlock/>
         </div>
     )
 }
