@@ -6,7 +6,12 @@ const options = [
     { value: "Научная фантастика", label: "Научная фантастика" },
     { value: "Драма", label: "Драма" },
     { value: "Криминал", label: "Криминал" },
-    { value: "Фэнтези", label: "Фэнтези" } 
+    { value: "Фэнтези", label: "Фэнтези" },
+    { value: "Триллер", label: "Триллер" },
+    { value: "Боевик", label: "Боевик" },
+    { value: "Комедия", label: "Комедия" },
+    { value: "Психологический", label: "Психологический" },
+    { value: "Приключения", label: "Приключения" },
 ];
 
 const MultiSelect = ({selectedOptions, setSelectedOptions}) => {

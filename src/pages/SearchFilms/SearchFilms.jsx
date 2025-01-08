@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import "./SearchFilms.css"
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavourite, toggleWatchLater } from "../../store/toggleActions.js";
+import { toggleFavourite, toggleWatchLater } from "../../store/actions/toggleActions";
 
 const SearchFilm = () => {
     const [foundFilms, setFoundFilms] = useState([]); 
@@ -17,23 +17,29 @@ const SearchFilm = () => {
     const { films } = location.state || { films: [] };
 
     const dispatch = useDispatch();
-    const favourites = useSelector(state => state.favourites);
-    const watchLater = useSelector(state => state.watchLater);
+    const favourites = useSelector(state => state.toggle.favourites);
+    const watchLater = useSelector(state => state.toggle.watchLater);
+
+
+    console.log({films})
 
     const searchByCategory = (event) => {
         event.preventDefault(); 
 
         const filteredFilms = films.filter(film => 
-            selectedOptions.some(option => film.Category === option.value)
+            selectedOptions.some(option => film.Category.includes(option.value))
         );
 
-        setFoundFilms(filteredFilms); 
+        setFoundFilms(filteredFilms);
     };
 
     const searchByName = (event) => {
         event.preventDefault();
 
-        const filteredFilms = films.filter(film => film.Title === filmName);
+        const filteredFilms = films.filter(film => 
+            film.Title.toLowerCase().includes(filmName.toLowerCase())
+        );
+        
 
         setFoundFilms(filteredFilms)  
     }
@@ -65,6 +71,7 @@ const SearchFilm = () => {
                         <Card
                             key={film.id}
                             film={film}
+                            films={films}
                             isFavourite={favourites.includes(film.id)}
                             isWatchLater={watchLater.includes(film.id)}
                             toggleFavourite={() => HandletoggleFavourite(film.id)}

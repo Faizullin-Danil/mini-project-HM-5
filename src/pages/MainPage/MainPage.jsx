@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleFavourite, toggleWatchLater } from "../../store/toggleActions.js";
+import { toggleFavourite, toggleWatchLater } from "../../store/actions/toggleActions.js";
 import Card from "../../components/Card/Card.jsx";
 import MyButton from "../../components/MyButton/MyButton.jsx";
 import Dropdown from "../../components/Dropdown/Dropdown.jsx";
@@ -8,25 +8,26 @@ import "./MainPage.css";
 import { Link } from "react-router-dom";
 
 const CollectionFilms = [
-    { id: 1, Title: "Начало", Description: "Вор проникает в сны, чтобы украсть секреты.", Actors: "Леонардо ДиКаприо, Джозеф Гордон-Левитт", Category: "Научная фантастика", Rate: 3 },
-    { id: 2, Title: "Побег из Шоушенка", Description: "Два человека находят дружбу в тюрьме.", Actors: "Тим Роббинс, Морган Фриман", Category: "Драма", Rate: 9 },
-    { id: 3, Title: "Крестный отец", Description: "Сын наследует преступную империю отца.", Actors: "Марлон Брандо, Аль Пачино", Category: "Криминал", Rate: 7 },
-    { id: 4, Title: "Темный рыцарь", Description: "Бэтмен против хаоса, который сеет Джокер.", Actors: "Кристиан Бейл, Хит Леджер", Category: "Фэнтези", Rate: 9 },
-    { id: 5, Title: "Криминальное чтиво", Description: "Переплетенные истории о преступлении и искуплении.", Actors: "Джон Траволта, Ума Турман", Category: "Криминал", Rate: 9 },
-    { id: 6, Title: "Форрест Гамп", Description: "Необычная жизнь человека на фоне истории.", Actors: "Том Хэнкс, Робин Райт", Category: "Драма", Rate: 8 },
-    { id: 7, Title: "Бойцовский клуб", Description: "Бессонница приводит к созданию подпольного клуба.", Actors: "Брэд Питт, Эдвард Нортон", Category: "Драма", Rate: 6 },
-    { id: 8, Title: "Матрица", Description: "Хакер открывает правду о реальности.", Actors: "Киану Ривз, Лоренс Фишберн", Category: "Научная фантастика", Rate: 8 },
-    { id: 9, Title: "Властелин колец: Возвращение короля", Description: "Последня битва за Средиземье начинается.", Actors: "Элайджа Вуд, Вигго Мортенсен", Category: "Фэнтези", Rate: 9 },
-    { id: 10, Title: "Интерстеллар", Description: "Исследователи путешествуют через червоточину, чтобы спасти человечество.", Actors: "Мэттью МакКонахи, Энн Хэтэуэй", Category: "Научная фантастика", Rate: 10 }
+    { id: 1, Title: "Начало", Description: "Вор проникает в сны, чтобы украсть секреты.", Actors: "Леонардо ДиКаприо, Джозеф Гордон-Левитт", Category: ["Научная фантастика", "Триллер"], Rate: 3 },
+    { id: 2, Title: "Побег из Шоушенка", Description: "Два человека находят дружбу в тюрьме.", Actors: "Тим Роббинс, Морган Фриман", Category: ["Драма", "Криминал"], Rate: 9 },
+    { id: 3, Title: "Крестный отец", Description: "Сын наследует преступную империю отца.", Actors: "Марлон Брандо, Аль Пачино", Category: ["Криминал", "Драма"], Rate: 7 },
+    { id: 4, Title: "Темный рыцарь", Description: "Бэтмен против хаоса, который сеет Джокер.", Actors: "Кристиан Бейл, Хит Леджер", Category: ["Фэнтези", "Боевик", "Триллер"], Rate: 9 },
+    { id: 5, Title: "Криминальное чтиво", Description: "Переплетенные истории о преступлении и искуплении.", Actors: "Джон Траволта, Ума Турман", Category: ["Криминал", "Драма"], Rate: 9 },
+    { id: 6, Title: "Форрест Гамп", Description: "Необычная жизнь человека на фоне истории.", Actors: "Том Хэнкс, Робин Райт", Category: ["Драма", "Комедия"], Rate: 8 },
+    { id: 7, Title: "Бойцовский клуб", Description: "Бессонница приводит к созданию подпольного клуба.", Actors: "Брэд Питт, Эдвард Нортон", Category: ["Драма", "Триллер", "Психологический"], Rate: 6 },
+    { id: 8, Title: "Матрица", Description: "Хакер открывает правду о реальности.", Actors: "Киану Ривз, Лоренс Фишберн", Category: ["Научная фантастика", "Боевик"], Rate: 8 },
+    { id: 9, Title: "Властелин колец: Возвращение короля", Description: "Последня битва за Средиземье начинается.", Actors: "Элайджа Вуд, Вигго Мортенсен", Category: ["Фэнтези", "Приключения"], Rate: 9 },
+    { id: 10, Title: "Интерстеллар", Description: "Исследователи путешествуют через червоточину, чтобы спасти человечество.", Actors: "Мэттью МакКонахи, Энн Хэтэуэй", Category: ["Научная фантастика", "Драма"], Rate: 10 }
 ];
+
+
 
 const MainPage = () => {
     const [films, setFilms] = useState(CollectionFilms);
     const dispatch = useDispatch();
-    const favourites = useSelector(state => state.favourites);
-    const watchLater = useSelector(state => state.watchLater);
+    const favourites = useSelector(state => state.toggle.favourites);
+    const watchLater = useSelector(state => state.toggle.watchLater);
 
-    console.log("Main: ", {films})
 
     const SortMax = () => {
         const sortedFilms = [...films].sort((a, b) => b.Rate - a.Rate);
@@ -61,6 +62,7 @@ const MainPage = () => {
                 <Card
                     key={film.id}
                     film={film}
+                    films={films}
                     isFavourite={favourites.includes(film.id)}
                     isWatchLater={watchLater.includes(film.id)}
                     toggleFavourite={() => HandletoggleFavourite(film.id)}
