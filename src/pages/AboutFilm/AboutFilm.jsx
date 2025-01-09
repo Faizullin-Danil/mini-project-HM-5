@@ -10,8 +10,6 @@ const AboutFilm = () => {
     const [film, setFilm] = useState(null); 
     const [similarFilms, setSimilarFilms] = useState([]);
 
-    console.log({film})
-
     useEffect(() => {
         if (!films || !id) return;
 

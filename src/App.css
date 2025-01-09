@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+.SideBarAndMain {
+  display: flex;
+  justify-content: center; /* Центрируем основной контент */
+  position: relative;
+}
+
+.MainContent {
+  width: 80%; /* или любая нужная ширина, например, 1000px */
+  margin: 0 auto; /* Выравнивание по центру */
+  padding-right: 320px; /* Отступ справа, чтобы не перекрывать Sidebar */
+}
+
+.SideBar {
+  position: fixed; /* Фиксируем панель */
+  top: 0; /* Прижимаем к верхней части экрана */
+  right: 0; /* Прижимаем к правой стороне */
+  width: 300px; /* Ширина боковой панели */
+  height: 100vh; /* Высота на весь экран */
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Небольшая тень */
+  z-index: 100; /* Устанавливаем высокий z-index, чтобы панель была поверх */
+  overflow-y: auto; /* Добавляем прокрутку, если содержимое панели выходит за пределы */
+}
+
